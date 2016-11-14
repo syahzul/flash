@@ -1,6 +1,5 @@
 <?php
-
-namespace Laracasts\Flash;
+namespace StanDaniels\Flash;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -21,12 +20,12 @@ class FlashServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            'Laracasts\Flash\SessionStore',
-            'Laracasts\Flash\LaravelSessionStore'
+            'StanDaniels\Flash\SessionStore',
+            'StanDaniels\Flash\LaravelSessionStore'
         );
 
         $this->app->singleton('flash', function () {
-            return $this->app->make('Laracasts\Flash\FlashNotifier');
+            return $this->app->make('StanDaniels\Flash\FlashNotifier');
         });
     }
 

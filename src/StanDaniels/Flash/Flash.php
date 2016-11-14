@@ -1,6 +1,5 @@
 <?php
-
-namespace Laracasts\Flash;
+namespace StanDaniels\Flash;
 
 use Illuminate\Support\Facades\Facade;
 

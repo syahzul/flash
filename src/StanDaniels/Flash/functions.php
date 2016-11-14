@@ -1,5 +1,4 @@
 <?php
-
 if ( ! function_exists('flash')) {
 
     /**
@@ -7,7 +6,7 @@ if ( ! function_exists('flash')) {
      *
      * @param  string|null $message
      * @param  string      $level
-     * @return \Laracasts\Flash\FlashNotifier
+     * @return \StanDaniels\Flash\FlashNotifier
      */
     function flash($message = null, $level = 'info')
     {

@@ -1,6 +1,5 @@
 <?php
-
-use Laracasts\Flash\FlashNotifier;
+use StanDaniels\Flash\FlashNotifier;
 use Mockery as m;
 
 class FlashTest extends PHPUnit_Framework_TestCase {
@@ -11,7 +10,7 @@ class FlashTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp()
 	{
-        $this->session = m::mock('Laracasts\Flash\SessionStore');
+        $this->session = m::mock('StanDaniels\Flash\SessionStore');
         $this->flash = new FlashNotifier($this->session);
 	}
 

@@ -4,13 +4,13 @@
 
 First, pull in the package through Composer.
 
-Run `composer require laracasts/flash`
+Run `composer require standaniels/flash`
 
 And then, if using Laravel 5, include the service provider within `config/app.php`.
 
 ```php
 'providers' => [
-    Laracasts\Flash\FlashServiceProvider::class,
+    StanDaniels\Flash\FlashServiceProvider::class,
 ];
 ```
 
@@ -97,7 +97,7 @@ If you need to modify the flash message partials, you can run:
 php artisan vendor:publish
 ```
 
-The two package views will now be located in the `app/views/packages/laracasts/flash/` directory.
+The two package views will now be located in the `app/views/packages/standaniels/flash/` directory.
 
 ```php
 flash('Welcome Aboard!');
@@ -116,14 +116,12 @@ return home();
 ![https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/error.png](https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/error.png)
 
 ```php
-flash()->overlay('Notice', 'You are now a Laracasts member!');
+flash()->overlay('Notice', 'You are now a VIP!');
 
 return home();
 ```
 
 ![https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/overlay.png](https://dl.dropboxusercontent.com/u/774859/GitHub-Repos/flash/overlay.png)
-
-> [Learn exactly how to build this very package on Laracasts!](https://laracasts.com/lessons/flexible-flash-messages)
 
 ## Hiding Flash Messages
 
@@ -136,3 +134,7 @@ $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
 ```
 
 This will find any alerts - excluding the important ones, which should remain until manually closed by the user - wait three seconds, and then fade them out.
+
+## Credits
+
+This is a fork of laracasts/flash.

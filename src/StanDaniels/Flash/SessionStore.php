@@ -1,6 +1,5 @@
 <?php
-
-namespace Laracasts\Flash;
+namespace StanDaniels\Flash;
 
 interface SessionStore
 {
