@@ -1,11 +1,15 @@
 {
-    "name": "laracasts/flash",
+    "name": "standaniels/flash",
     "description": "Easy flash notifications",
     "license": "MIT",
     "authors": [
         {
             "name": "Jeffrey Way",
             "email": "jeffrey@laracasts.com"
+        },
+        {
+            "name": "Stan Daniëls",
+            "email": "mail@standaniels.nl"
         }
     ],
     "require": {
