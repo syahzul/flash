@@ -1,6 +1,8 @@
 <?php
 namespace StanDaniels\Flash;
 
+use Illuminate\Support\Collection;
+
 class FlashNotifier
 {
     /**
@@ -82,10 +84,13 @@ class FlashNotifier
      */
     public function overlay($message, $title = 'Notice', $level = 'info')
     {
-        $this->message($message, $level);
-
-        $this->session->flash('flash_notification.overlay', true);
-        $this->session->flash('flash_notification.title', $title);
+        $notification = new Collection([
+            'message' => $message,
+            'level' => $level,
+            'overlay' => true,
+            'title' => $title,
+        ]);
+        $this->push($notification);
 
         return $this;
     }
@@ -99,8 +104,11 @@ class FlashNotifier
      */
     public function message($message, $level = 'info')
     {
-        $this->session->flash('flash_notification.message', $message);
-        $this->session->flash('flash_notification.level', $level);
+        $notification = new Collection([
+            'message' => $message,
+            'level' => $level,
+        ]);
+        $this->push($notification);
 
         return $this;
     }
@@ -112,9 +120,50 @@ class FlashNotifier
      */
     public function important()
     {
-        $this->session->flash('flash_notification.important', true);
+        $last = $this->pop();
+        $last->put('important', true);
+        $this->push($last);
 
         return $this;
+    }
+
+    /**
+     * @return Collection[]
+     */
+    public function all()
+    {
+        return $this->session->pull('flash_notifications', []);
+    }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->session->get('flash_notifications', []));
+    }
+
+    /**
+     * Get and remove the last item from the collection.
+     * @return Collection
+     */
+    protected function pop()
+    {
+        $flashNotifications = $this->all();
+        $last = \array_pop($flashNotifications);
+        $this->session->flash('flash_notifications', $flashNotifications);
+
+        return $last;
+    }
+
+    /**
+     * @param Collection $notification
+     */
+    protected function push(Collection $notification)
+    {
+        $flashNotifications = $this->all();
+        $flashNotifications[] = $notification;
+        $this->session->flash('flash_notifications', $flashNotifications);
     }
 }
 

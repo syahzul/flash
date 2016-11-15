@@ -10,6 +10,7 @@ if ( ! function_exists('flash')) {
      */
     function flash($message = null, $level = 'info')
     {
+        /** @var \StanDaniels\Flash\FlashNotifier $notifier */
         $notifier = app('flash');
 
         if ( ! is_null($message)) {

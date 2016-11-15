@@ -2,98 +2,159 @@
 use StanDaniels\Flash\FlashNotifier;
 use Mockery as m;
 
-class FlashTest extends PHPUnit_Framework_TestCase {
-
+class FlashTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * @var StanDaniels\Flash\SessionStore
+     */
     protected $session;
 
+    /**
+     * @var StanDaniels\Flash\FlashNotifier
+     */
     protected $flash;
 
-	public function setUp()
-	{
+    protected function tearDown()
+    {
+        m::close();
+    }
+
+    public function setUp()
+    {
         $this->session = m::mock('StanDaniels\Flash\SessionStore');
         $this->flash = new FlashNotifier($this->session);
-	}
+    }
 
-	/** @test */
-	public function it_displays_default_flash_notifications()
-	{
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'Welcome Aboard');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Notice');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'info');
+    /** @test */
+    public function it_displays_default_flash_notifications()
+    {
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Welcome Aboard',
+            'level' => 'info',
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
 
         $this->flash->message('Welcome Aboard');
-	}
+    }
+
+    /** @test */
+    public function it_displays_important_flash_notifications()
+    {
+        $defaultMessage = \Illuminate\Support\Collection::make([
+            'message' => 'Welcome Aboard',
+            'level' => 'info'
+        ]);
+        $importantMessage = \Illuminate\Support\Collection::make([
+            'message' => 'Welcome Aboard',
+            'level' => 'info',
+            'important' => true,
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$defaultMessage]);
+        $this->session->shouldReceive('pull')->once()->andReturn([$defaultMessage]);
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', []);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$importantMessage]);
+
+        $this->flash->message('Welcome Aboard')->important();
+    }
 
     /** @test */
     public function it_displays_info_flash_notifications()
     {
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'Welcome Aboard');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Notice');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'info');
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Welcome Aboard',
+            'level' => 'info',
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
 
         $this->flash->info('Welcome Aboard');
     }
 
-	/** @test */
-	public function it_displays_success_flash_notifications()
-	{
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'Welcome Aboard');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Notice');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'success');
+    /** @test */
+    public function it_displays_success_flash_notifications()
+    {
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Task completed',
+            'level' => 'success',
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
 
-		$this->flash->success('Welcome Aboard');
-	}
+        $this->flash->success('Task completed');
+    }
 
-	/** @test */
-	public function it_displays_error_flash_notifications()
-	{
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'Uh Oh');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Notice');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'danger');
+    /** @test */
+    public function it_displays_error_flash_notifications()
+    {
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Uh Oh',
+            'level' => 'danger',
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
 
         $this->flash->error('Uh Oh');
-	}
+    }
 
     /** @test */
     public function it_displays_warning_flash_notifications()
     {
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'Be careful!');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Notice');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'warning');
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Be careful!',
+            'level' => 'warning',
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
 
         $this->flash->warning('Be careful!');
     }
 
     /** @test */
-    public function it_displays_custom_message_titles()
+    public function it_displays_flash_overlay_notifications()
     {
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'You are now signed up.');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Success Heading');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'success');
-
-        $this->flash->success('You are now signed up.', 'Success Heading');
-    }
-
-	/** @test */
-	public function it_displays_flash_overlay_notifications()
-	{
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'Overlay Message');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Notice');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'info');
-        $this->session->shouldReceive('flash')->with('flash_notification.overlay', true);
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Overlay Message',
+            'title' => 'Notice',
+            'level' => 'info',
+            'overlay' => true,
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
 
         $this->flash->overlay('Overlay Message');
-	}
+    }
 
     /** @test */
     public function it_displays_flash_overlay_notifications_with_custom_level()
     {
-        $this->session->shouldReceive('flash')->with('flash_notification.message', 'Overlay Message');
-        $this->session->shouldReceive('flash')->with('flash_notification.title', 'Notice');
-        $this->session->shouldReceive('flash')->with('flash_notification.level', 'danger');
-        $this->session->shouldReceive('flash')->with('flash_notification.overlay', true);
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Overlay Message',
+            'title' => 'Notice',
+            'level' => 'danger',
+            'overlay' => true,
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
 
-        $this->flash->overlay('Overlay Message','Notice','danger');
+        $this->flash->overlay('Overlay Message', 'Notice', 'danger');
+    }
+
+    /** @test */
+    public function it_displays_flash_overlay_notifications_with_custom_title()
+    {
+        $message = \Illuminate\Support\Collection::make([
+            'message' => 'Overlay Message',
+            'title' => 'For your information',
+            'level' => 'info',
+            'overlay' => true,
+        ]);
+        $this->session->shouldReceive('pull')->once();
+        $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
+
+        $this->flash->overlay('Overlay Message', 'For your information');
     }
 
 }
