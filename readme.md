@@ -1,5 +1,7 @@
 # Easy Flash Messages for Your Laravel App
 
+_Forked from laracasts/flash to add support for multiple notifications._
+
 ## Installation
 
 First, pull in the package through Composer.
@@ -36,19 +38,19 @@ You may also do:
 - `flash()->overlay('Modal Message', 'Modal Title')`
 - `flash('Message')->important()`
 
-Behind the scenes, this will set a few keys in the session:
+Behind the scenes, this will set a `flash_notifications` key which contains an array of messages. Every messages is an instance of `Illuminate\Support\Collection`:
 
-- 'flash_notification.message' - The message you're flashing
-- 'flash_notification.level' - A string that represents the type of notification (good for applying HTML class names)
+- 'message' - The message you're flashing
+- 'level' - A string that represents the type of notification (good for applying HTML class names)
 
 With this message flashed to the session, you may now display it in your view(s). Maybe something like:
 
 ```html
-@if (session()->has('flash_notification.message'))
-    <div class="alert alert-{{ session('flash_notification.level') }}">
+@foreach (flash()->all() as $message)
+    <div class="alert alert-{{ $message->get('level') }}">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 
-        {!! session('flash_notification.message') !!}
+        {!! $message->get('message') !!}
     </div>
 @endif
 ```
@@ -58,7 +60,7 @@ With this message flashed to the session, you may now display it in your view(s)
 Because flash messages and overlays are so common, if you want, you may use (or modify) the views that are included with this package. Simply append to your layout view:
 
 ```html
-@include('flash::message')
+@include('flash::messages')
 ```
 
 ## Example
@@ -74,7 +76,7 @@ Because flash messages and overlays are so common, if you want, you may use (or 
 <body>
 
 <div class="container">
-    @include('flash::message')
+    @include('flash::messages')
 
     <p>Welcome to my website...</p>
 </div>
@@ -84,7 +86,7 @@ Because flash messages and overlays are so common, if you want, you may use (or 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <script>
-    $('#flash-overlay-modal').modal();
+    $('.flash-modal').modal();
 </script>
 
 </body>
@@ -137,4 +139,4 @@ This will find any alerts - excluding the important ones, which should remain un
 
 ## Credits
 
-This is a fork of laracasts/flash.
+Special thanks to Jeffrey Way's laracasts/flash.
