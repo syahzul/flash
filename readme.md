@@ -2,6 +2,8 @@
 
 _Forked from laracasts/flash to add support for multiple notifications._
 
+[![Build Status](https://travis-ci.org/standaniels/flash.svg?branch=master)](https://travis-ci.org/standaniels/flash)
+
 ## Installation
 
 First, pull in the package through Composer.
