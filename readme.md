@@ -54,7 +54,7 @@ With this message flashed to the session, you may now display it in your view(s)
 
         {!! $message->get('message') !!}
     </div>
-@endif
+@endforeach
 ```
 
 > Note that this package is optimized for use with Twitter Bootstrap.
