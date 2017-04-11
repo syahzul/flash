@@ -100,13 +100,15 @@ class FlashNotifier
      *
      * @param  string $message
      * @param  string $level
+     * @param  array  $payload
      * @return $this
      */
-    public function message($message, $level = 'info')
+    public function message($message, $level = 'info', $payload = [])
     {
         $notification = new Collection([
             'message' => $message,
             'level' => $level,
+            'payload' => $payload,
         ]);
         $this->push($notification);
 
