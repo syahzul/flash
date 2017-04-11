@@ -80,15 +80,17 @@ class FlashNotifier
      * @param  string $message
      * @param  string $title
      * @param  string $level
+     * @param  array  $payload
      * @return $this
      */
-    public function overlay($message, $title = 'Notice', $level = 'info')
+    public function overlay($message, $title = 'Notice', $level = 'info', $payload = [])
     {
         $notification = new Collection([
             'message' => $message,
             'level' => $level,
             'overlay' => true,
             'title' => $title,
+            'payload' => $payload,
         ]);
         $this->push($notification);
 

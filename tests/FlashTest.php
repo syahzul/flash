@@ -31,6 +31,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
         $message = \Illuminate\Support\Collection::make([
             'message' => 'Welcome Aboard',
             'level' => 'info',
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
@@ -43,12 +44,14 @@ class FlashTest extends PHPUnit_Framework_TestCase
     {
         $defaultMessage = \Illuminate\Support\Collection::make([
             'message' => 'Welcome Aboard',
-            'level' => 'info'
+            'level' => 'info',
+            'payload' => [],
         ]);
         $importantMessage = \Illuminate\Support\Collection::make([
             'message' => 'Welcome Aboard',
             'level' => 'info',
             'important' => true,
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$defaultMessage]);
@@ -66,6 +69,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
         $message = \Illuminate\Support\Collection::make([
             'message' => 'Welcome Aboard',
             'level' => 'info',
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
@@ -79,6 +83,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
         $message = \Illuminate\Support\Collection::make([
             'message' => 'Task completed',
             'level' => 'success',
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
@@ -92,6 +97,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
         $message = \Illuminate\Support\Collection::make([
             'message' => 'Uh Oh',
             'level' => 'danger',
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
@@ -105,6 +111,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
         $message = \Illuminate\Support\Collection::make([
             'message' => 'Be careful!',
             'level' => 'warning',
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
@@ -120,6 +127,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
             'title' => 'Notice',
             'level' => 'info',
             'overlay' => true,
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
@@ -135,6 +143,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
             'title' => 'Notice',
             'level' => 'danger',
             'overlay' => true,
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
@@ -150,6 +159,7 @@ class FlashTest extends PHPUnit_Framework_TestCase
             'title' => 'For your information',
             'level' => 'info',
             'overlay' => true,
+            'payload' => [],
         ]);
         $this->session->shouldReceive('pull')->once();
         $this->session->shouldReceive('flash')->once()->with('flash_notifications', [$message]);
