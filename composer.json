@@ -4,6 +4,10 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Syahril Zulkefli",
+            "email": "syahzul@me.com"
+        },
+        {
             "name": "Stan Daniëls",
             "email": "mail@standaniels.nl"
         },
@@ -14,7 +18,7 @@
     ],
     "require": {
         "php": ">=5.6.0",
-        "illuminate/support": "~5.0"
+        "illuminate/support": "^5.0|^6.0|^7.0|^8.0"
     },
     "require-dev": {
         "mockery/mockery": "0.*"
